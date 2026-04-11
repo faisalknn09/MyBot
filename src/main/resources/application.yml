@@ -1,0 +1,34 @@
+#All configuration
+# application.yml - All configuration for our Discord bot
+
+spring:
+  application:
+    name: discord-bot
+  main:
+    # CRITICAL: Prevents Spring from closing immediately
+    # JDA runs its own threads; without this the app exits right away
+    keep-alive: true
+  task:
+    execution:
+      pool:
+        core-size: 4          # Minimum threads in async pool
+        max-size: 16           # Max threads for bursts
+        queue-capacity: 100  # Commands queued if threads are busy
+      thread-name-prefix: bot-async-
+
+discord:
+  bot:
+    # NEVER hardcode tokens. Read from environment variable.
+    # Set: export DISCORD_BOT_TOKEN=MTxxxxxx...
+    token: ${DISCORD_BOT_TOKEN}
+    prefix: "!"              # Commands must start with !
+    status: "Listening for commands"
+    ignore-bots: true       # Don't respond to other bots
+
+logging:
+  level:
+    root: INFO
+    com.example.discordbot: DEBUG   # Our code: verbose
+    net.dv8tion.jda: WARN           # JDA internals: quiet
+  pattern:
+    console: "%d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
