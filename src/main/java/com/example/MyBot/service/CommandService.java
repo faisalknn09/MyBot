@@ -26,10 +26,20 @@ public class CommandService {
 
     private final HelloService helloService;
     private final AskService askService;
+    private final HelpService helpService;
+    private final JokeService jokeService;
+    private final DefineService defineService;
+    private final WeatherService weatherService;
+    //private ForgetService forgetService;
 
-    public CommandService(HelloService helloService, AskService askService) {
+    public CommandService(HelloService helloService, AskService askService, HelpService helpService,JokeService jokeService,DefineService defineService, WeatherService weatherService) {
         this.helloService = helloService;
         this.askService = askService;
+        this.helpService = helpService;
+        //this.forgetService=forgetService;
+        this.defineService=defineService;
+        this.jokeService=jokeService;
+        this.weatherService=weatherService;
     }
 
     /**
@@ -57,6 +67,11 @@ public class CommandService {
             switch (command) {
                 case HELLO -> helloService.execute(context);
                 case ASK   -> askService.execute(context);
+                case HELP  -> helpService.execute(context);
+                case JOKE    -> jokeService.execute(context);
+                case DEFINE  -> defineService.execute(context);
+                case WEATHER -> weatherService.execute(context);
+                //case FORGET -> forgetService.execute(context);
                 // Add new cases here as you add features
                 default    -> throw new UnknownCommandException(context.getCommandName());
             }

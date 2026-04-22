@@ -1,52 +1,53 @@
 package com.example.MyBot.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
-/**
- * Why a context object? Instead of passing 5 parameters through every method call, wrap them in one object.
- * Cleaner code, and you can add fields later (like timestamp, permissions) without changing all method signatures.
- * CommandContext - A snapshot of everything about a command invocation.
- *
- * Think of it as a "request object" — all the info a service needs
- * to process a command in one place.
- *
- * @Builder  = Lombok gives us CommandContext.builder().commandName(...).build()
- * @Getter   = Lombok generates all getters
- * @ToString = Lombok generates toString() for logging
- *
- * WHY immutable (no setters)?
- * A command context never changes once parsed. Immutable objects are
- * thread-safe by nature — no synchronization needed in async processing.
- */
-@Getter
-@Builder
-@ToString
 public class CommandContext {
 
-    /** The command name, e.g. "hello" or "ask" */
     private final String commandName;
-
-    /** Arguments after the command name, e.g. "what is Java?" */
     private final String args;
-
-    /** The Discord username of the person who sent the command */
     private final String authorName;
-
-    /** The Discord user ID (unique, unlike names which can be duplicated) */
     private final String authorId;
-
-    /** The channel to reply to (never null) */
     private final TextChannel channel;
-
-    /** The server (null if command came from a DM) */
     private final Guild guild;
 
-    /** Convenience method: is this command from a guild or a DM? */
-    public boolean isFromGuild() {
-        return guild != null;
+    private CommandContext(Builder builder) {
+        this.commandName = builder.commandName;
+        this.args        = builder.args;
+        this.authorName  = builder.authorName;
+        this.authorId    = builder.authorId;
+        this.channel     = builder.channel;
+        this.guild       = builder.guild;
+    }
+
+    public String getCommandName()  { return commandName; }
+    public String getArgs()         { return args; }
+    public String getAuthorName()   { return authorName; }
+    public String getAuthorId()     { return authorId; }
+    public TextChannel getChannel() { return channel; }
+    public Guild getGuild()         { return guild; }
+    public boolean isFromGuild()    { return guild != null; }
+
+    public static Builder builder() { return new Builder(); }
+
+    public static class Builder {
+        private String commandName;
+        private String args;
+        private String authorName;
+        private String authorId;
+        private TextChannel channel;
+        private Guild guild;
+
+        public Builder commandName(String v) { this.commandName = v; return this; }
+        public Builder args(String v)        { this.args = v;        return this; }
+        public Builder authorName(String v)  { this.authorName = v;  return this; }
+        public Builder authorId(String v)    { this.authorId = v;    return this; }
+        public Builder channel(TextChannel v){ this.channel = v;     return this; }
+        public Builder guild(Guild v)        { this.guild = v;       return this; }
+
+        public CommandContext build() {
+            return new CommandContext(this);
+        }
     }
 }

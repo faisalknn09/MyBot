@@ -18,7 +18,12 @@ import com.example.MyBot.exception.UnknownCommandException;
 public enum BotCommand {
 
     HELLO("hello"),
-    ASK("ask");
+    ASK("ask"),
+    FORGET("forget"),
+    WEATHER("weather"),
+    JOKE("joke"),
+    DEFINE("define"),
+    HELP("help");
 
     // The string the user types (after the prefix)
     private final String commandName;
