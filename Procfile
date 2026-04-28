@@ -1,0 +1,1 @@
+worker: java -jar target/MyBot-1.0.0.jar
