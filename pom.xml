@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>com.example</groupId>
-	<artifactId>discord-bot</artifactId>
+	<artifactId>MyBot</artifactId>
 	<version>1.0.0</version>
 	<name>Discord Bot</name>
 	<description>Production-ready Discord bot with Spring Boot + JDA</description>
